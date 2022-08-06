@@ -9,7 +9,7 @@ app.set("port", 1000);
 sequelize
   .sync()
   .then(() => console.log("db connect"))
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -22,11 +22,9 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  return res.json(
-    {
-      success: false,
-      message: err.message,
-      result: err,
-    },
-  );
+  return res.json({
+    success: false,
+    message: err.message,
+    result: err,
+  });
 });
