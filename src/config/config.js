@@ -5,7 +5,7 @@ dotenv.config();
 const config = {
   "development": {
     "username": "root",
-    "password": "broccoli",
+    "password": "chl1wls2rhkd3",
     "database": "simpleblog",
     "host": "127.0.0.1",
     "dialect": "mysql",
