@@ -3,6 +3,9 @@ import morgan from "morgan";
 
 import { sequelize } from "./models/index.js";
 
+import userRoutes from "./routes/user.js";
+import commentRoutes from "./routes/comment.js";
+
 const app = express();
 
 app.set("port", 1000);
@@ -15,6 +18,9 @@ sequelize
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/user", userRoutes);
+app.use("/comment", commentRoutes);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 존재하지 않습니다.`);
@@ -31,3 +37,5 @@ app.use((err, req, res, next) => {
     },
   );
 });
+
+app.listen(app.get("port"), () => console.log(1000));
