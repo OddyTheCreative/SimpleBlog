@@ -14,7 +14,7 @@ response: { token }
   
 #### 게시글 작성  
 method: POST  
-URL: /post/create/:userId  
+URL: /post/create 
 body: { content }  
 response: {}  
   
