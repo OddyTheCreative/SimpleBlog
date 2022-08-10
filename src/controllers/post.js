@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import User from "../models/user.js";
 import Post from "../models/post.js";
 // // import authMiddleware from "../middlewares/authmiddleware.js";
@@ -35,3 +36,6 @@ const createPost = async (req, res) => {
 };
 
 export { createPost, auth };
+=======
+//
+>>>>>>> 83f14516ac0765d89b95cdd5d3adec076665dff4

@@ -22,6 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+app.use("/post", postRoutes);
+=======
+app.use("/posts", postRoutes);
+>>>>>>> 9c47d954751742ac68c2741d11cfee6ad996b5ef
+>>>>>>> 83f14516ac0765d89b95cdd5d3adec076665dff4
 app.use("/comment", commentRoutes);
 
 app.use((req, res, next) => {
