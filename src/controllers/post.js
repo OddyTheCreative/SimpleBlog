@@ -5,12 +5,12 @@ import Post from "../models/post.js";
 import Comment from "../models/comment.js";
 
 const postSchema = Joi.object({ // post 형식
-  title: Joi.string().required(),
-  title: Joi.string().required(),
+  title: Joi.string().required().pattern(new RegExp(/^[a-zA-Z0-9\s\S]{1,200}$/)),
+  content: Joi.string().required().pattern(new RegExp(/^[\s\S]{1,3000}$/)),
 });
 
-const RE_title = /^[a-zA-Z0-9\s\S]{1,200}$/; // title 
-const RE_content = /^[\s\S]{1,3000}$/; //content 글자수 제한 3000자
+
+const locals = { userId: 1 } 
 
 const postcreate = async (req, res, next) => {//게시글 생성 API
   try{
@@ -20,14 +20,7 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
     };
 
     const { title, content } = resultSchema.value;
-    const { userId } = req.locals.user;
-
-    if(!isRegexValidation(title, RE_title)) {
-      return res.status(400).json({ errorMessage: "제목이 형식에 맞지 않습니다."});
-    };
-    if(!isRegexValidation(content, RE_content)) {
-      return res.status(400).json({ errorMessage: "제목이 형식에 맞지 않습니다."});
-    };
+    const { userId } = locals;
 
     await Post.create({ userId, title, content });
 
@@ -59,17 +52,20 @@ const postLook = async (req, res, next) => { // 상세 조회
   try{
     const { postId } = req.params;
     const posts = await Post.findOne({ where: { id: postId }, 
-      include: {
+      include: [{
         model: User,
         attributes: ["name"],
-      },
+      },{
+        model: Comment,
+        attributes: ["content"],
+      },]
     });
-    const comment = await Comment.findAll({ where: { postId }})
+
 
     if(!posts){
       return res.status(400).json({ errorMessage: "게시글이 없습니다."});
     }else{
-      return res.status(200).json({ posts, comment });
+      return res.status(200).json({ posts,});
     };
   }catch(err){
     console.error(err, { Message: "게시글 상세 조회에 실패했습니다." } );
