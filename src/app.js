@@ -8,7 +8,6 @@ import postRoutes from "./routes/post.js";
 import commentRoutes from "./routes/comment.js";
 // import authMiddleware from "./middlewares/authMiddleware.js";
 
-
 const app = express();
 app.set("port", 1000);
 
@@ -23,11 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
-<<<<<<< HEAD
 app.use("/post", postRoutes);
-=======
-app.use("/posts", postRoutes);
->>>>>>> 9c47d954751742ac68c2741d11cfee6ad996b5ef
 app.use("/comment", commentRoutes);
 
 app.use((req, res, next) => {
