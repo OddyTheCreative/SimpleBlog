@@ -9,11 +9,7 @@ const auth = async (req, res, next) => {
   req.get("authorization");
   //   console.log(req.headers);
   const { authorization } = req.headers;
-
   const [tokenType, tokenValue] = (authorization || "").split(" ");
-  //   console.log("tokenType : ", tokenType);
-  //   console.log("tokenValue : ", tokenValue.trim());
-  //   console.log("오~ 그 토큰 맞는데~");
 
   if (tokenType !== "Bearer" || !tokenValue) {
     res.status(400).send({ errorMessage: "유효한 토큰이 아닙니다" });

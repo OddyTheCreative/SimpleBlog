@@ -22,7 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
-app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
 
 app.use((req, res, next) => {
