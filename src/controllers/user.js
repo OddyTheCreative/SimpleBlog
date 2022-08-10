@@ -89,7 +89,10 @@ const userLogin = async (req, res, next) => {
         {
           userId: user.id,
         },
-        "simple-secret-key"
+        "simple-secret-key",
+        {
+          expiresIn: "30",
+        }
       );
       console.log("여기 왔니?", token);
       return res.status(200).send({ message: "로그인에 성공했습니다.", token });
