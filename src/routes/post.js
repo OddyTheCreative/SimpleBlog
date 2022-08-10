@@ -1,4 +1,5 @@
 import express from "express";
+<<<<<<< HEAD
 
 import User from "../models/user.js"
 import * as postControllers from "../controllers/post.js";
@@ -65,5 +66,12 @@ router.delete("/:postId", async (req, res) =>{
     await Post.status(200).destroy({ where: { postId } })
 
 });
+=======
+import * as postController from "../controllers/posts.js";
+// import * as authMiddleware from "../middlewares/authMiddleware.js";
+const router = express.Router();
+
+router.post("/post", postController.auth, postController.createPost);
+>>>>>>> 9c47d954751742ac68c2741d11cfee6ad996b5ef
 
 export default router;

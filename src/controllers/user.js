@@ -87,8 +87,7 @@ const userLogin = async (req, res, next) => {
     if (validPassword) {
       const token = jwt.sign(
         {
-          userId: user.email,
-          userName: user.name,
+          userId: user.id,
         },
         "simple-secret-key"
       );
