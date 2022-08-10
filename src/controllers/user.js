@@ -21,7 +21,6 @@ const userJoin = async (req, res, next) => {
   try {
     console.log(req.body);
     const { email, name, password, confirm } = req.body;
-    // await userJoinSchema.validateAsync(req.body);
 
     if (email === undefined || name === undefined || password === undefined) {
       return res
@@ -48,7 +47,6 @@ const userJoin = async (req, res, next) => {
     const hashPassword = await bcrypt.hash(password, 12);
     console.log("bcrypt 적용", hashPassword);
 
-    // const user = new User({ email, name, password }); //꼭 필요한가
     await User.create({ email, name, password: hashPassword });
     res.json({ message: "회원가입 완료" });
 
@@ -75,9 +73,7 @@ const userLogin = async (req, res, next) => {
     // 입력받은 이메일 찾기
     const { email } = await userLoginSchema.validateAsync(req.body);
     const user = await User.findOne({ where: { email } });
-    console.log("db에 있는 해시 비밀번호", user.password);
     const hashPassword = user.password;
-    console.log(hashPassword);
 
     if (!user) {
       return res
