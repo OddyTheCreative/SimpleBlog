@@ -3,47 +3,19 @@ import express from "express";
 =======
 <<<<<<< HEAD
 
-import User from "../models/user.js"
-import * as postControllers from "../controllers/post.js";
-import * as Post from "../models/post.js";
+import * as postControllers from "../controllers/posts.js";
 
 const router = express.Router();
 
-router.post("/create", async (req ,res) =>{
-    try{
-        const { title, content } = req.body;
-        const { userId } = req.locals.user;
+router.post("/create",postControllers.postcreate);
 
-        await Post.create({ userId, title, content });
+router.get("/",postControllers.postLooks);
 
-        return res.status(201).json({ Message: "게시글 작성에 성공했습니다." });
-    }catch (error){
-        return res.status(400).json({
-            errorMessage: "게시판 작성에 실패."
-        });
-    }
-    
-});
+router.get("/:postId",postControllers.postLook);
 
-router.get("/", async (req, res) =>{
-  try{
-    // const posts = await Post.findAll({
-    //     include: {
-    //     model: User,
-    //     attributes: ["name"],
-    //     },
-    //     });
-    console.log( 11 );
-    const posts = await Post.findAll({
-        order: [['updatedAt', 'desc']],
-    });
-    console.log( 12 );
-    return res.status(201).json({ posts,});
-  }catch(error){
-    return res.status(400).json({ errorMessage: "게시판 조회에 실패." });
-  };
-});
+router.put("/:postId",postControllers.postupdate);
 
+<<<<<<< HEAD
 router.get("/:postId", async (req, res) =>{
     const { postId } = req.params;
 
@@ -78,6 +50,12 @@ router.post("/post", postController.auth, postController.createPost);
 <<<<<<< HEAD
 =======
 >>>>>>> 9c47d954751742ac68c2741d11cfee6ad996b5ef
+<<<<<<< HEAD
 >>>>>>> 83f14516ac0765d89b95cdd5d3adec076665dff4
+=======
+=======
+router.delete("/:postId",postControllers.portdelete);
+>>>>>>> jinguang-chou
+>>>>>>> e915e80cf2b509f9b54cac282447c5e2772f09cc
 
 export default router;
