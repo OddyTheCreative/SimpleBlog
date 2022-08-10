@@ -1,4 +1,4 @@
-import jsonwebtoken from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import Joi from "joi";
 import User from "../models/user.js";
 import { Op } from "sequelize";
@@ -19,8 +19,9 @@ const userJoinSchema = Joi.object({
 // 회원가입 API
 const userJoin = async (req, res, next) => {
   try {
-    const { email, name, password, confirm } =
-      await userJoinSchema.validateAsync(req.body);
+    console.log(req.body);
+    const { email, name, password, confirm } = req.body;
+    // await userJoinSchema.validateAsync(req.body);
 
     if (email === undefined || name === undefined || password === undefined) {
       return res
@@ -43,8 +44,12 @@ const userJoin = async (req, res, next) => {
         .status(400)
         .send({ errorMessage: "이메일 혹은 아이디가 사용 중입니다." });
     }
+
+    const hashPassword = await bcrypt.hash(password, 12);
+    console.log("bcrypt 적용", hashPassword);
+
     // const user = new User({ email, name, password }); //꼭 필요한가
-    await User.create({ email, name, password });
+    await User.create({ email, name, password: hashPassword });
     res.json({ message: "회원가입 완료" });
 
     // // throw Error("error");
@@ -67,26 +72,34 @@ const userLoginSchema = Joi.object({
 const userLogin = async (req, res, next) => {
   // res.send("안 왔어..?ㅠ0ㅠ");
   try {
-    const { email, password } = await userLoginSchema.validateAsync(req.body);
+    // 입력받은 이메일 찾기
+    const { email } = await userLoginSchema.validateAsync(req.body);
     const user = await User.findOne({ where: { email } });
-    console.log("여기 진짜 왔니?");
+    console.log("db에 있는 해시 비밀번호", user.password);
+    const hashPassword = user.password;
+    console.log(hashPassword);
 
-    if (!user || user.password !== password) {
+    if (!user) {
       return res
         .status(400)
-        .send({ errorMessage: "아이디나 비밀번호가 일치하지 않습니다." });
+        .send({ errorMessage: "일치하는 이메일이 없습니다." });
     }
 
-    const token = jwt.sign(
-      {
-        userId: user.email,
-        userName: user.name,
-      },
-      "simple-secret-key"
-    );
-    console.log("여기 왔니?", token);
-    return res.status(200).send({ message: "로그인에 성공했습니다.", token });
-  } catch {
+    const validPassword = await bcrypt.compare(req.body.password, hashPassword);
+    console.log(validPassword);
+
+    if (validPassword) {
+      const token = jwt.sign(
+        {
+          userId: user.email,
+          userName: user.name,
+        },
+        "simple-secret-key"
+      );
+      console.log("여기 왔니?", token);
+      return res.status(200).send({ message: "로그인에 성공했습니다.", token });
+    }
+  } catch (err) {
     console.error(err);
     res
       .status(400)
