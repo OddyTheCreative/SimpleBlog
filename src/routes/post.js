@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 import express from "express";
 
-import * as postControllers from "../controllers/posts.js";
+import * as postControllers from "../controllers/post.js";
 
 const router = express.Router();
 
