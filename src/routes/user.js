@@ -1,5 +1,6 @@
 import express, { application } from "express";
 import * as userController from "../controllers/user.js";
+import * as authMiddleware from "../middlewares/authmiddleware.js";
 import jwt from "jsonwebtoken";
 
 import User from "../models/user.js";
@@ -9,7 +10,7 @@ const router = express.Router();
 
 router.post("/join", userController.userJoin);
 router.post("/login", userController.userLogin);
-router.post("/test", userController.auth, (req, res, next) => {
+router.post("/test", authMiddleware.auth, (req, res, next) => {
   console.log(req.userId);
 });
 
