@@ -1,11 +1,33 @@
+import Joi from "joi";
+import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import Post from "../models/post.js";
 import Comment from "../models/comment.js";
 
+const postSchema = Joi.object({ // post 형식
+  title: Joi.string().required(),
+  title: Joi.string().required(),
+});
+
+const RE_title = /^[a-zA-Z0-9\s\S]{1,200}$/; // title 
+const RE_content = /^[\s\S]{1,3000}$/; //content 글자수 제한 3000자
+
 const postcreate = async (req, res, next) => {//게시글 생성 API
   try{
-    const { title, content } = req.body;
+    const resultSchema = postSchema.validate(req.body);
+    if(resultSchema.error) {
+      return res.status(400).json({ errorMessage: "형식에 맞지 않습니다."});
+    };
+
+    const { title, content } = resultSchema.value;
     const { userId } = req.locals.user;
+
+    if(!isRegexValidation(title, RE_title)) {
+      return res.status(400).json({ errorMessage: "제목이 형식에 맞지 않습니다."});
+    };
+    if(!isRegexValidation(content, RE_content)) {
+      return res.status(400).json({ errorMessage: "제목이 형식에 맞지 않습니다."});
+    };
 
     await Post.create({ userId, title, content });
 
@@ -56,7 +78,7 @@ const postLook = async (req, res, next) => { // 상세 조회
 
 };
 
-const postupdate = async (req, res, next) => {
+const postupdate = async (req, res, next) => { // 게시글 수정
   try{
     const { postId } = req.params;
     const { title, content } = req.body;
@@ -73,7 +95,7 @@ const postupdate = async (req, res, next) => {
   };  
 };
 
-const portdelete = async (req, res, next) => {
+const portdelete = async (req, res, next) => { // 게시글 삭제
   try{
     const { postId } = req.params;
     const post = await Post.findOne({ where: { id: postId } });
