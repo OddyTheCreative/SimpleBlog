@@ -1,9 +1,9 @@
 import express from "express";
 
 import User from "../models/user.js"
-import * as Post from "../models/post.js";
+import Post from "../models/post.js";
 
-const postJoin = async (req, res, next) => {
+const postcreate = async (req, res, next) => {//게시글 생성 API
   try{
     const { title, content } = req.body;
     const { userId } = req.locals.user;
@@ -12,85 +12,71 @@ const postJoin = async (req, res, next) => {
 
     return res.status(201).json({ Message: "게시글 작성에 성공했습니다." });
   }catch (error){
-    console.error(err);
+    console.error(err, { Message: "게시글 작성에 실패했습니다." } );
     next(err);
-  }    
-    try{
-        
-
-    }catch (err) {
-        console.error(err);
-        next(err);
-    }
-}
-const postJoins = async (req, res, next) => {
-    try{
-
-    }catch (err) {
-        console.error(err);
-        next(err);
-    }
-}
-router.post("/create", async (req ,res) =>{
-    try{
-        const { title, content } = req.body;
-        const { userId } = req.locals.user;
-
-        await Post.create({ userId, title, content });
-
-        return res.status(201).json({ Message: "게시글 작성에 성공했습니다." });
-    }catch (error){
-        return res.status(400).json({
-            errorMessage: "게시판 작성에 실패."
-        });
-    }
-    
-});
-
-router.get("/", async (req, res) =>{
+  };    
+};
+const postLooks = async (req, res, next) => { // 전체 조회
   try{
-    // const posts = await Post.findAll({
-    //     include: {
-    //     model: User,
-    //     attributes: ["name"],
-    //     },
-    //     });
-    console.log( 11 );
     const posts = await Post.findAll({
-        order: [['updatedAt', 'desc']],
+      order: [['updatedAt', 'desc']],
+      include: {
+      model: User,
+      attributes: ["name"],
+      },
     });
-    console.log( 12 );
+    
     return res.status(201).json({ posts,});
-  }catch(error){
-    return res.status(400).json({ errorMessage: "게시판 조회에 실패." });
+  }catch (err) {
+    console.error(err, { Message: "게시글 전체 조회에 실패했습니다." } );
+    next(err);
   };
-});
+};
 
-router.get("/:postId", async (req, res) =>{
+const postLook = async (req, res, next) => { // 상세 조회
+  try{
     const { postId } = req.params;
+    const posts = await Post.findOne({ where: { id: postId } });
 
-    const posts = await Post.findOne({ where: { postId } });
+    if(!posts){
+      return res.status(400).json({ errorMessage: "게시글이 없습니다."});
+    }else{
+      return res.status(200).json({ posts });
+    };
+  }catch(err){
+    console.error(err, { Message: "게시글 상세 조회에 실패했습니다." } );
+    next(err);
+  }
 
-    return res.status(200).json({ posts })
-});
+};
 
-router.put("/:postId", async (req, res) =>{
-    const { postId } = req.params;
-    const { title, content } = req.body;
+const postupdate = async (req, res, next) => {
+    try{
+        const { postId } = req.params;
+        const { title, content } = req.body;
+    
+        await Post.update({ title, content }, { where: { postId }});
+      next()
+    }catch(error){
+      console.error(err, { Message: "게시글 수정 실패 " } );
+      next(err);
+    }
+  
+  };
 
-    await Post.update({ title, content }, { where: { postId }});
-
-});
-
-router.delete("/:postId", async (req, res) =>{
+const portdelete = async (req, res, next) => {
+  try{
     const { postId } = req.params;
 
     const post = await Post.findOne({ where: { postId } })
 
     await Post.status(200).destroy({ where: { postId } })
-
-});
+  }catch(error){
+    console.error(err, { Message: "게시글 조회에 실패했습니다." } );
+    next(err);
+  }
+};
 
 export {
-    postJoin,
+    postcreate, postLooks, postLook, postupdate, portdelete
 }
