@@ -4,11 +4,13 @@ import morgan from "morgan";
 import { sequelize } from "./models/index.js";
 
 import userRoutes from "./routes/user.js";
+import postRoutes from "./routes/post.js";
 import commentRoutes from "./routes/comment.js";
+// import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
-
 app.set("port", 1000);
+
 sequelize
   .sync()
   // .sync({ force: true })
@@ -20,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
+app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
 
 app.use((req, res, next) => {
