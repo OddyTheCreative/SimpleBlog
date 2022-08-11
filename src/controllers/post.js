@@ -109,5 +109,5 @@ const portdelete = async (req, res, next) => { // 게시글 삭제
 };
 
 export {
-    postcreate, postLooks, postLook, postupdate, portdelete
+    postcreate, postLooks, postLook, postupdate, portdelete, 
 }

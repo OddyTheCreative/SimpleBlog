@@ -19,13 +19,7 @@ const userJoinSchema = Joi.object().keys({
 // 회원가입 API
 const userJoin = async (req, res, next) => {
   try {
-    console.log("테스트", req.body);
-    const { email, name, password, confirm } =
-      await userJoinSchema.validateAsync(req.body);
-
-    // if (userJoinSchema.error) {
-    //   return res.status(400).json({ errorMessage: "형식에 맞지 않습니다." });
-    // }
+    // const { email, name, password, confirm } = await userJoinSchema.validateAsync(req.body);
 
     if (email === undefined || name === undefined || password === undefined) {
       return res
@@ -41,7 +35,6 @@ const userJoin = async (req, res, next) => {
     const isExistUser = await User.findOne({
       where: { [Op.or]: [{ email }, { name }] },
     });
-    console.log("아이디 있니?", isExistUser);
 
     if (isExistUser !== null) {
       return res
@@ -55,12 +48,8 @@ const userJoin = async (req, res, next) => {
     await User.create({ email, name, password: hashPassword });
     res.json({ message: "회원가입 완료" });
     console.log("회원가입 완료");
-    // // throw Error("error");
   } catch (err) {
     console.error(err);
-    res
-      .status(400)
-      .send({ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
     next(err);
   }
 };
