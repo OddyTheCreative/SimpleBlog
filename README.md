@@ -76,7 +76,7 @@ response: {}
 method: DELETE  
 URL: /post/like/:postId  
 body: { userId }
-response: {}  
+response: {  
   
   
 
