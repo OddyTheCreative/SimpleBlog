@@ -11,7 +11,7 @@ const userJoinSchema = Joi.object().keys({
   password: Joi.string()
     // .min(8)
     // .max(20)
-    .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+    .pattern(new RegExp("^[a-zA-Z0-9]{8,20}$"))
     .required(),
   confirm: Joi.ref("password"),
 });
