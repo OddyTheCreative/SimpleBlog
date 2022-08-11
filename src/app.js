@@ -37,3 +37,6 @@ app.use((err, req, res, next) => {
     result: err,
   });
 });
+
+app.listen(app.get("port"), () => console.log(1000));
+
