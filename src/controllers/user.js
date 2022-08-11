@@ -9,9 +9,15 @@ const userJoinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(10).required(),
   password: Joi.string()
+<<<<<<< HEAD
     // .min(8)
     // .max(20)
     .pattern(new RegExp("^[a-zA-Z0-9]{8,20}$"))
+=======
+    .min(8)
+    .max(20)
+    // .pattern(new RegExp("/^[0-9a-z]/$")) //왜 안 먹히지..?
+>>>>>>> 01afd9489c149ab8dffb4ec86c0af20bf67c5053
     .required(),
   confirm: Joi.ref("password"),
 });
