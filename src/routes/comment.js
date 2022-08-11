@@ -1,15 +1,16 @@
 import express from "express";
 
-import * as commentControllers from "../controllers/comment";
+import * as commentController from "../controllers/comment.js";
+import * as authmiddleware from "../middlewares/authmiddleware.js";
 
 const router = express.Router();
 
-router.get("/:postId", commentControllers.commentRead);
+router.get("/:postId", commentController.commentRead);
 
-router.post("/:postId", commentControllers.commentCreate);
+router.post("/:postId", authmiddleware.auth, commentController.commentCreate);
 
-router.put("/:commentId", commentControllers.commentEdit);
+router.put("/:commentId", authmiddleware.auth, commentController.commentEdit);
 
-router.delete("/:commentId", commentControllers.commentDelete);
+router.delete("/:commentId", authmiddleware.auth, commentController.commentDelete);
 
 export default router;
