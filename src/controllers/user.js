@@ -57,10 +57,7 @@ const userJoin = async (req, res, next) => {
     console.log("회원가입 완료");
     // // throw Error("error");
   } catch (err) {
-    console.error(err);
-    res
-      .status(400)
-      .send({ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
+    console.error(err,{ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
     next(err);
   }
 };
@@ -100,10 +97,7 @@ const userLogin = async (req, res, next) => {
       return res.status(200).send({ message: "로그인에 성공했습니다.", token });
     }
   } catch (err) {
-    console.error(err);
-    res
-      .status(400)
-      .send({ errorMessage: "입력한 데이터 형식이 올바르지 않습니다." });
+    console.error(err,{ errorMessage: "입력한 데이터 형식이 올바르지 않습니다." });
     next(err);
   }
 };
