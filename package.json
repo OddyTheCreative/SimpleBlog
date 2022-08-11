@@ -1,0 +1,41 @@
+{
+  "name": "task-three",
+  "version": "1.0.0",
+  "description": "task-three",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OddyTheCreative/SimpleBlog.git"
+  },
+  "keywords": [
+    "HTTP",
+    "API",
+    "Server"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OddyTheCreative/SimpleBlog/issues"
+  },
+  "homepage": "https://github.com/OddyTheCreative/SimpleBlog#readme",
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1"
+  }
+}
