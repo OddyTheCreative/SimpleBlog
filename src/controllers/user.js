@@ -8,11 +8,7 @@ import bcrypt from "bcrypt";
 const userJoinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(10).required(),
-  password: Joi.string()
-    .min(8)
-    .max(20)
-    // .pattern(new RegExp("^[0-9a-z]$")) //왜 안 먹히지..?
-    .required(),
+  password: Joi.string().pattern(new RegExp("^[0-9a-z]{8,20}$")).required(),
   confirm: Joi.ref("password"),
 });
 
@@ -57,10 +53,9 @@ const userJoin = async (req, res, next) => {
     console.log("회원가입 완료");
     // // throw Error("error");
   } catch (err) {
-    console.error(err);
-    res
-      .status(400)
-      .send({ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
+    console.error(err, {
+      errorMessage: "입력한 데이터 형식이 올바르지 않습니다.",
+    });
     next(err);
   }
 };
