@@ -15,4 +15,5 @@ router.put("/:postId", authmiddleware.auth, postControllers.postupdate);
 
 router.delete("/:postId", authmiddleware.auth, postControllers.portdelete);
 
+
 export default router;
