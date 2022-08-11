@@ -13,6 +13,7 @@ app.set("port", 1000);
 
 sequelize
   .sync()
+  // .sync({ force: true })
   .then(() => console.log("db connect"))
   .catch((err) => console.error(err));
 
@@ -37,6 +38,3 @@ app.use((err, req, res, next) => {
     result: err,
   });
 });
-
-app.listen(app.get("port"), () => console.log(1000));
-
