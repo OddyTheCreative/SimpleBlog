@@ -4,24 +4,12 @@ dotenv.config();
 
 const config = {
   development: {
-    username: "root",
-<<<<<<< HEAD
-    password: "nana7221",
-=======
-<<<<<<< HEAD
-    password: "chl1wls2rhkd3",
->>>>>>> bbae9f8049b017f3494d4d8067f8b4e937d48375
-    database: "simpleblog",
+    username: process.env.DB_ID,
+    password: process.env.DB_PW,
+    database: process.env.DB,
     host: "127.0.0.1",
     dialect: "mysql",
     logging: false,
-=======
-    password: "brocoli",
-    database: "simpleblog",
-    host: "127.0.0.1",
-    dialect: "mysql",
-    logging: true,
->>>>>>> 655244adde7514d28456a4780a4066c2f733b903
   },
   test: {
     username: "root",
