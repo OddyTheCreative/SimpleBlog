@@ -1,4 +1,5 @@
 // import Joi from "joi";
+import { where } from "sequelize/types/sequelize.js";
 import Comment from "../models/comment.js";
 
 // const RE_COMMENT = /^[\s\S]{1,100}$/;
@@ -34,11 +35,11 @@ const commentRead = async (req, res, next) => {
 
 const commentCreate = async (req, res, next) => {
   try {
-    const { postId } = req.params;
+    const { PostId } = req.params;
     const { content } = req.body;
-    const { userId } = res.locals.user;
+    const UserId = req.userId;
 
-    await Comment.create({ postId, userId, content });
+    await Comment.create({ PostId, UserId, content });
     return res.status(201).json({ message: "댓글을 작성하였습니다." });
   } catch (err) {
     console.log(err.message);
@@ -52,9 +53,8 @@ const commentEdit = async (req, res, next) => {
   try {
     const { commentId } = req.params;
     const { content } = req.body;
-    const { userId } = res.locals.user;
 
-    const isExist = await Comment.findByPk(commentId);
+    const isExist = await Comment.findByPk({where: {commentId}});
     if (!isExist) {
       return res.status(404).json({
         errorMessage: "댓글이 존재하지 않습니다.",
@@ -63,7 +63,7 @@ const commentEdit = async (req, res, next) => {
 
     const updateCount = await Comment.update(
       { content },
-      { where: { commentId, userId } }
+      { where: { commentId } }
     );
 
     if (updateCount < 1) {
@@ -84,7 +84,6 @@ const commentEdit = async (req, res, next) => {
 const commentDelete = async (req, res, next) => {
   try {
     const { commentId } = req.params;
-    const { userId } = res.locals.user;
 
     const isExist = await Comment.findByPk(commentId);
     if (!isExist) {
@@ -94,7 +93,7 @@ const commentDelete = async (req, res, next) => {
     }
 
     const deleteCount = await Comment.destroy({
-      where: { commentId, userId },
+      where: { commentId },
     });
 
     if (deleteCount < 1) {
