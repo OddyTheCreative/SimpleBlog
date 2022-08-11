@@ -16,9 +16,9 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
     };
 
     const { title, content } = resultSchema.value;
-    const { userId } = res.locals.user;
+    const UserId = req.userId;
 
-    await Post.create({ userId, title, content });
+    await Post.create({ UserId, title, content });
 
     return res.status(201).json({ Message: "게시글 작성에 성공했습니다." });
   }catch (err){

@@ -4,9 +4,9 @@ dotenv.config();
 
 const config = {
   development: {
-    username: process.env.DB_ID,
-    password: process.env.DB_PW,
-    database: process.env.DB,
+    username: "root",
+    password: "chl1wls2rhkd3",
+    database: "simpleblog",
     host: "127.0.0.1",
     dialect: "mysql",
     logging: false,

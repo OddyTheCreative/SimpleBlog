@@ -9,9 +9,7 @@ const userJoinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(10).required(),
   password: Joi.string()
-    .min(8)
-    .max(20)
-    // .pattern(new RegExp("^[0-9a-z]$")) //왜 안 먹히지..?
+    .pattern(new RegExp("^[0-9a-z]{8,20}$")) 
     .required(),
   confirm: Joi.ref("password"),
 });
@@ -49,7 +47,8 @@ const userJoin = async (req, res, next) => {
     res.json({ message: "회원가입 완료" });
     console.log("회원가입 완료");
   } catch (err) {
-    console.error(err);
+    console.error(err,{ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
+
     next(err);
   }
 };
@@ -89,10 +88,7 @@ const userLogin = async (req, res, next) => {
       return res.status(200).send({ message: "로그인에 성공했습니다.", token });
     }
   } catch (err) {
-    console.error(err);
-    res
-      .status(400)
-      .send({ errorMessage: "입력한 데이터 형식이 올바르지 않습니다." });
+    console.error(err,{ errorMessage: "입력한 데이터 형식이 올바르지 않습니다." });
     next(err);
   }
 };
