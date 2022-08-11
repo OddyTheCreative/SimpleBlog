@@ -73,7 +73,6 @@ const userLoginSchema = Joi.object({
 
 // 로그인 API
 const userLogin = async (req, res, next) => {
-  // res.send("안 왔어..?ㅠ0ㅠ");
   try {
     // 입력받은 이메일 찾기
     const { email } = await userLoginSchema.validateAsync(req.body);
