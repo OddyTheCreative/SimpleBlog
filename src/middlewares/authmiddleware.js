@@ -3,6 +3,7 @@ import User from "../models/user.js";
 
 // 사용자 인증 미들웨어
 const auth = async (req, res, next) => {
+    // console.log("사용자 인증 미들웨어에 왔어요");
   console.log(req.get("Authorization"));
 
   try {
