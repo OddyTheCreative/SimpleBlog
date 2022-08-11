@@ -3,6 +3,9 @@ import Joi from "joi";
 import User from "../models/user.js";
 import { Op } from "sequelize";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // 회원가입 스키마
 const userJoinSchema = Joi.object().keys({
@@ -17,8 +20,8 @@ const userJoinSchema = Joi.object().keys({
 // 회원가입 API
 const userJoin = async (req, res, next) => {
   try {
-    // const { email, name, password, confirm } = await userJoinSchema.validateAsync(req.body);
-
+    const { email, name, password, confirm } = await userJoinSchema.validateAsync(req.body);
+    // const { email, name, password, confirm} = req.body;
     if (email === undefined || name === undefined || password === undefined) {
       return res
         .status(400)
@@ -41,14 +44,11 @@ const userJoin = async (req, res, next) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
-    console.log("bcrypt 적용", hashPassword);
 
     await User.create({ email, name, password: hashPassword });
     res.json({ message: "회원가입 완료" });
-    console.log("회원가입 완료");
   } catch (err) {
     console.error(err,{ errMessage: "입력한 데이터 형식이 올바르지 않습니다." });
-
     next(err);
   }
 };
@@ -75,16 +75,14 @@ const userLogin = async (req, res, next) => {
     }
 
     const validPassword = await bcrypt.compare(req.body.password, hashPassword);
-    console.log(validPassword);
 
     if (validPassword) {
       const token = jwt.sign(
         {
           userId: user.id,
         },
-        "simple-secret-key"
+        process.env.TOKEN_SECRET,
       );
-      console.log("여기 왔니?", token);
       return res.status(200).send({ message: "로그인에 성공했습니다.", token });
     }
   } catch (err) {

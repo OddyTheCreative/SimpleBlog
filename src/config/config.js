@@ -4,10 +4,10 @@ dotenv.config();
 
 const config = {
   development: {
-    username: "root",
-    password: "chl1wls2rhkd3",
-    database: "simpleblog",
-    host: "127.0.0.1",
+    username: process.env.DB_ID,
+    password: process.env.DB_PW,
+    database: process.env.DB,
+    host: process.env.DB_HOST,
     dialect: "mysql",
     logging: false,
   },
@@ -19,11 +19,12 @@ const config = {
     dialect: "mysql",
   },
   production: {
-    username: "root",
-    password: null,
-    database: "database_production",
-    host: "127.0.0.1",
+    username: process.env.DB_ID,
+    password: process.env.DB_PW,
+    database: process.env.DB,
+    host: process.env.DB_HOST,
     dialect: "mysql",
+    logging: false,
   },
 };
 

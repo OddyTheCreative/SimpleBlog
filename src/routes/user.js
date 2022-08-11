@@ -10,8 +10,5 @@ const router = express.Router();
 
 router.post("/join", userController.userJoin);
 router.post("/login", userController.userLogin);
-router.post("/test", authMiddleware.auth, (req, res, next) => {
-  console.log(req.userId);
-});
 
 export default router;

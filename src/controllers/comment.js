@@ -1,6 +1,6 @@
 // import Joi from "joi";
-import { where } from "sequelize/types/sequelize.js";
 import Comment from "../models/comment.js";
+import { Sequelize } from "sequelize";
 
 // const RE_COMMENT = /^[\s\S]{1,100}$/;
 
@@ -17,14 +17,13 @@ const commentRead = async (req, res, next) => {
                 FROM Comment AS c
                 JOIN User AS u
                 ON c.userId = u.userId
-                WHERE c.postId = ${postId}`;
-
+                WHERE c.postId = ${postId}
+    `;
     const comments = await sequelize.query(commentsQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
 
     comments.sort((a, b) => b.createdAt - a.createdAt);
-
     return res.status(200).json({ data: comments });
   } catch (err) {
     return res.status(400).json({
