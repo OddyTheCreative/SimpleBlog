@@ -5,13 +5,13 @@ import { Op } from "sequelize";
 import bcrypt from "bcrypt";
 
 // 회원가입 스키마
-const userJoinSchema = Joi.object({
+const userJoinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(10).required(),
   password: Joi.string()
     .min(8)
     .max(20)
-    // .pattern(new RegExp("/^[0-9a-z]/$")) //왜 안 먹히지..?
+    // .pattern(new RegExp("^[0-9a-z]$")) //왜 안 먹히지..?
     .required(),
   confirm: Joi.ref("password"),
 });
@@ -19,8 +19,13 @@ const userJoinSchema = Joi.object({
 // 회원가입 API
 const userJoin = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const { email, name, password, confirm } = req.body;
+    console.log("테스트", req.body);
+    const { email, name, password, confirm } =
+      await userJoinSchema.validateAsync(req.body);
+
+    // if (userJoinSchema.error) {
+    //   return res.status(400).json({ errorMessage: "형식에 맞지 않습니다." });
+    // }
 
     if (email === undefined || name === undefined || password === undefined) {
       return res
@@ -39,7 +44,7 @@ const userJoin = async (req, res, next) => {
     console.log("아이디 있니?", isExistUser);
 
     if (isExistUser !== null) {
-      res
+      return res
         .status(400)
         .send({ errorMessage: "이메일 혹은 아이디가 사용 중입니다." });
     }
@@ -49,7 +54,7 @@ const userJoin = async (req, res, next) => {
 
     await User.create({ email, name, password: hashPassword });
     res.json({ message: "회원가입 완료" });
-
+    console.log("회원가입 완료");
     // // throw Error("error");
   } catch (err) {
     console.error(err);

@@ -6,7 +6,11 @@ const config = {
   development: {
     username: "root",
 <<<<<<< HEAD
+    password: "nana7221",
+=======
+<<<<<<< HEAD
     password: "chl1wls2rhkd3",
+>>>>>>> bbae9f8049b017f3494d4d8067f8b4e937d48375
     database: "simpleblog",
     host: "127.0.0.1",
     dialect: "mysql",
