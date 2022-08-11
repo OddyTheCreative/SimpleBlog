@@ -23,7 +23,7 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
 
     return res.status(201).json({ Message: "게시글 작성에 성공했습니다." });
   }catch (err){
-    console.error(err, { Message: "게시글 작성에 실패했습니다." } );
+    console.error(err, { errorMessage: "게시글 작성에 실패했습니다." } );
     next(err);
   };    
 };
@@ -40,7 +40,7 @@ const postLooks = async (req, res, next) => { // 전체 조회
     
     return res.status(201).json({ posts,});
   }catch (err) {
-    console.error(err, { Message: "게시글 전체 조회에 실패했습니다." } );
+    console.error(err, { errorMessage: "게시글 전체 조회에 실패했습니다." } );
     next(err);
   };
 };
@@ -65,7 +65,7 @@ const postLook = async (req, res, next) => { // 상세 조회
       return res.status(200).json({ posts,});
     };
   }catch(err){
-    console.error(err, { Message: "게시글 상세 조회에 실패했습니다." } );
+    console.error(err, { errorMessage: "게시글 상세 조회에 실패했습니다." } );
     next(err);
   }
 
@@ -88,7 +88,7 @@ const postupdate = async (req, res, next) => { // 게시글 수정
         return res.status(200).json({ Message: "게시글이 수정 되었습니다."});
       };
   }catch(err){
-    console.error(err, { Message: "게시글 수정 실패 " } );
+    console.error(err, { errorMessage: "게시글 수정 실패 " } );
     next(err);
   };  
 };
@@ -104,7 +104,7 @@ const portdelete = async (req, res, next) => { // 게시글 삭제
         return res.status(200).json({ Message: "게시글이 삭제 되었습니다."});
       };
   }catch(err){
-    console.error(err, { Message: "게시글 삭제에 실패했습니다." } );
+    console.error(err, { errorMessage: "게시글 삭제에 실패했습니다." } );
     next(err);
   };
 };
