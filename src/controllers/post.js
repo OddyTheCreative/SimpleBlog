@@ -1,5 +1,4 @@
 import Joi from "joi";
-import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import Post from "../models/post.js";
 import Comment from "../models/comment.js";
@@ -31,7 +30,7 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
 const postLooks = async (req, res, next) => { // 전체 조회
   try{
     const posts = await Post.findAll({
-      order: [['updatedAt', 'desc']],
+      order: [["createdAt", "desc"]],
       include: {
       model: User,
       attributes: ["name"],
