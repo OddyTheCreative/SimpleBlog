@@ -16,7 +16,8 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
     };
 
     const { title, content } = resultSchema.value;
-    const { userId } = res.locals.user;
+    const { userId } = res.userId;
+    console.log(userId)
 
     await Post.create({ userId, title, content });
 
