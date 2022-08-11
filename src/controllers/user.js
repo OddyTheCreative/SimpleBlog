@@ -11,7 +11,7 @@ const userJoinSchema = Joi.object({
   password: Joi.string()
     .min(8)
     .max(20)
-    // .pattern(new RegExp("^[0-9a-z]$")) //왜 안 먹히지..?
+    // .pattern(new RegExp("/^[0-9a-z]/$")) //왜 안 먹히지..?
     .required(),
   confirm: Joi.ref("password"),
 });
@@ -87,8 +87,7 @@ const userLogin = async (req, res, next) => {
     if (validPassword) {
       const token = jwt.sign(
         {
-          userId: user.email,
-          userName: user.name,
+          userId: user.id,
         },
         "simple-secret-key"
       );

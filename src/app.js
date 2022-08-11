@@ -6,11 +6,11 @@ import { sequelize } from "./models/index.js";
 import userRoutes from "./routes/user.js";
 import postRoutes from "./routes/post.js";
 import commentRoutes from "./routes/comment.js";
-
+// import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
-
 app.set("port", 1000);
+
 sequelize
   .sync()
   // .sync({ force: true })
