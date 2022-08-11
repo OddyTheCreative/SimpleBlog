@@ -10,7 +10,7 @@ const postSchema = Joi.object({ // post 형식
 });
 
 
-const locals = { userId: 1 } 
+
 
 const postcreate = async (req, res, next) => {//게시글 생성 API
   try{
@@ -18,6 +18,7 @@ const postcreate = async (req, res, next) => {//게시글 생성 API
     if(resultSchema.error) {
       return res.status(400).json({ errorMessage: "형식에 맞지 않습니다."});
     };
+    const locals = { userId: 1 } 
 
     const { title, content } = resultSchema.value;
     const { userId } = locals;
@@ -76,8 +77,13 @@ const postLook = async (req, res, next) => { // 상세 조회
 
 const postupdate = async (req, res, next) => { // 게시글 수정
   try{
+    const resultSchema = postSchema.validate(req.body);
+    if(resultSchema.error) {
+      return res.status(400).json({ errorMessage: "형식에 맞지 않습니다."});
+    };
+
     const { postId } = req.params;
-    const { title, content } = req.body;
+    const { title, content } = resultSchema.value;
     const post = await Post.findOne({ where: { id: postId } });
     if(!post){
         return res.status(400).json({ errorMessage: "게시글이 없습니다."});
