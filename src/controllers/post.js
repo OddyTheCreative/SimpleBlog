@@ -9,19 +9,15 @@ const postSchema = Joi.object({ // post 형식
   content: Joi.string().required().pattern(new RegExp(/^[\s\S]{1,3000}$/)),
 });
 
-
-
-
 const postcreate = async (req, res, next) => {//게시글 생성 API
   try{
     const resultSchema = postSchema.validate(req.body);
     if(resultSchema.error) {
       return res.status(400).json({ errorMessage: "형식에 맞지 않습니다."});
     };
-    const locals = { userId: 1 } 
 
     const { title, content } = resultSchema.value;
-    const { userId } = locals;
+    const { userId } = res.locals.user;
 
     await Post.create({ userId, title, content });
 
