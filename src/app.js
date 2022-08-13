@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import cors from "cors";
+// import cors from "cors";
 
 import { sequelize } from "./models/index.js";
 
@@ -18,9 +18,9 @@ sequelize
   .then(() => console.log("db connect"))
   .catch((err) => console.error(err));
 
-app.use(cors({
-  credentials: true,
-}));
+// app.use(cors({
+//   credentials: true,
+// }));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,4 +41,8 @@ app.use((err, req, res, next) => {
     message: err.message,
     result: err,
   });
+});
+
+app.listen(post, () => {
+  console.log("Server Running");
 });

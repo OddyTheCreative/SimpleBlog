@@ -1,5 +1,5 @@
 // import Joi from "joi";
-import { where } from "sequelize/types/sequelize.js";
+// import { where } from "sequelize/types/sequelize.js";
 import Comment from "../models/comment.js";
 
 // const RE_COMMENT = /^[\s\S]{1,100}$/;
